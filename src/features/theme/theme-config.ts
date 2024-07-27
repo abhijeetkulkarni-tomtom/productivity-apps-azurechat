@@ -1,5 +1,5 @@
-export const AI_NAME = "Azure Chat";
-export const AI_DESCRIPTION = "Azure Chat is a friendly AI assistant.";
+export const AI_NAME = "Tom Bot";
+export const AI_DESCRIPTION = "Tom Bot is a friendly AI assistant which is hosted only for TomTom. Your queries are not shared outside TomTom.";
 export const CHAT_DEFAULT_PERSONA = AI_NAME + " default";
 
 export const CHAT_DEFAULT_SYSTEM_PROMPT = `You are a friendly ${AI_NAME} AI assistant. You must always return in markdown format.

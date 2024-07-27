@@ -21,6 +21,15 @@ export const ExtensionHero = () => {
       <NewExtension />
       <BingSearch />
       <AISearch />
+      {/* {user.isAdmin && (
+      <NewExtension />
+      )}
+      {user.isAdmin && (
+      <BingSearch />
+      )}
+      {user.isAdmin && (
+      <AISearch />
+      )} */}
     </Hero>
   );
 };

@@ -18,7 +18,8 @@ export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
-}) {
+}) { 
+  //const { themes } = useTheme();
   return (
     <html lang="en" className="h-full w-full overflow-hidden text-sm">
       <body
@@ -33,6 +34,10 @@ export default function RootLayout({
           {children}
           <Toaster />
         </ThemeProvider>
+         <div style={{position: "absolute",top: 0,right: 0}}>
+          <img src="/TomTom-logo-RGB_lockup.png" style={{height: "45px"}}></img>
+          {/* <img src="/TomTom-logo-RGB_lockup-diap.png" className="dark" style={{height: "45px"}}></img> */}
+        </div> 
       </body>
     </html>
   );

@@ -4,6 +4,7 @@ import "server-only";
 import { ServerActionResponse } from "@/features/common/server-action-response";
 
 import { userHashedId } from "@/features/auth-page/helpers";
+import { getAccessToken } from "@/features/auth-page/helpers";
 import {
   FindAllExtensionForCurrentUser,
   FindSecureHeaderValue,
@@ -86,11 +87,15 @@ async function executeFunction(props: {
     const headerItems = await Promise.all(headerPromise);
 
     // we need to add the user id to the headers as this is expected by the function and does not have context of the user
-    headerItems.push({
-      id: "authorization",
-      key: "authorization",
-      value: await userHashedId(),
-    });
+    
+    if (extensionModel.name.toLowerCase().indexOf("servicenow") === -1) {
+      headerItems.push({
+        id: "authorization",
+        key: "authorization",
+        value: "Bearer " + await getAccessToken(),//userHashedId(),
+      });
+    }
+    
     // map the headers to a dictionary
     const headers: { [key: string]: string } = headerItems.reduce(
       (acc: { [key: string]: string }, header) => {
@@ -99,7 +104,9 @@ async function executeFunction(props: {
       },
       {}
     );
+    console.log("Headers:", headers);
 
+    console.log("Query:", args.query);
     // replace the query parameters
     if (args.query) {
       for (const key in args.query) {
@@ -121,12 +128,18 @@ async function executeFunction(props: {
       requestInit.body = JSON.stringify(args.body);
     }
 
+    console.log("FunctionModel.Endpoint:", functionModel.endpoint);
+    console.log("FunctionModel.EndpointType", functionModel.endpointType);
+
     const response = await fetch(functionModel.endpoint, requestInit);
+    console.log("Response status:", response.status);
+    console.log("Response headers:", response.headers);
 
     if (!response.ok) {
       return `There was an error calling the api: ${response.statusText}`;
     }
     const result = await response.json();
+    console.log("Response body:", result);
 
     return {
       id: functionModel.id,
