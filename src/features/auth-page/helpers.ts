@@ -9,6 +9,10 @@ const clientSecret = process.env.EXTENSION_CLIENT_SECRET;
 const tenantId = process.env.EXTENSION_TENANT_ID; // Replace with your tenant ID
 const tokenEndpoint = `https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/token`;
 
+if (!clientId || !clientSecret || !tenantId) {
+  throw new Error('Environment variables EXTENSION_CLIENT_ID, EXTENSION_CLIENT_SECRET, and EXTENSION_TENANT_ID must be set');
+}
+
 export const getAccessToken = async () => {
   const params = new URLSearchParams();
   params.append('grant_type', 'client_credentials');
