@@ -88,11 +88,19 @@ async function executeFunction(props: {
 
     // we need to add the user id to the headers as this is expected by the function and does not have context of the user
     
-    if (extensionModel.name.toLowerCase().indexOf("servicenow") === -1) {
+    if (extensionModel.name.toLowerCase().indexOf("servicenow") === -1 && extensionModel.name.toLowerCase().indexOf("bing") === -1) {
+      headerItems.push({
+        id: "authorization",
+        key: "Authorization",
+        value: "Bearer " + await getAccessToken(),//userHashedId(),
+      });
+    }
+
+    if (extensionModel.name.toLowerCase().indexOf("bing") > -1) {
       headerItems.push({
         id: "authorization",
         key: "authorization",
-        value: "Bearer " + await getAccessToken(),//userHashedId(),
+        value: await userHashedId(),
       });
     }
     
