@@ -4,14 +4,10 @@ import { RedirectToPage } from "../common/navigation-helpers";
 import { options } from "./auth-api";
 import fetch from 'node-fetch'; // Make sure to install node-fetch if you haven't
 
-const clientId = process.env.EXTENSION_CLIENT_ID;
-const clientSecret = process.env.EXTENSION_CLIENT_SECRET;
-const tenantId = process.env.EXTENSION_TENANT_ID; // Replace with your tenant ID
+const clientId = process.env.EXTENSION_CLIENT_ID ?? '';
+const clientSecret = process.env.EXTENSION_CLIENT_SECRET ?? '';
+const tenantId = process.env.EXTENSION_TENANT_ID ?? '';  // Replace with your tenant ID
 const tokenEndpoint = `https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/token`;
-
-if (!clientId || !clientSecret || !tenantId) {
-  throw new Error('Environment variables EXTENSION_CLIENT_ID, EXTENSION_CLIENT_SECRET, and EXTENSION_TENANT_ID must be set');
-}
 
 export const getAccessToken = async () => {
   const params = new URLSearchParams();
