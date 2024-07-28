@@ -38,7 +38,9 @@ const configureIdentityProvider = () => {
         clientId: process.env.AZURE_AD_CLIENT_ID!,
         clientSecret: process.env.AZURE_AD_CLIENT_SECRET!,
         tenantId: process.env.AZURE_AD_TENANT_ID!,
-        authorization: { params: { scope: "openid profile email offline_access https://graph.microsoft.com/User.Read" } },
+        authorization: { params: { 
+          scope: "openid profile email offline_access https://graph.microsoft.com/User.Read https://graph.microsoft.com/Calendars.Read https://graph.microsoft.com/Calendars.Read.Shared https://graph.microsoft.com/Calendars.ReadWrite"
+         } },
         async profile(profile) {
           const newProfile = {
             ...profile,
