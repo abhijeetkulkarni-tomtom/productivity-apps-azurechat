@@ -4,13 +4,15 @@ import { DefaultSession } from "next-auth";
 
 declare module "next-auth" {
   interface Session {
+    accessToken?: string;
     user: {
       isAdmin: boolean;
     } & DefaultSession["user"];
   }
 
-  interface Token {
-    isAdmin: boolean;
+  interface JWT {
+    accessToken?: string;
+    isAdmin?: boolean;
   }
 
   interface User {

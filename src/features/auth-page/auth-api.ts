@@ -38,7 +38,7 @@ const configureIdentityProvider = () => {
         clientId: process.env.AZURE_AD_CLIENT_ID!,
         clientSecret: process.env.AZURE_AD_CLIENT_SECRET!,
         tenantId: process.env.AZURE_AD_TENANT_ID!,
-        async profile(profile) {
+        async profile(profile, tokens) {
           const newProfile = {
             ...profile,
             // throws error without this - unsure of the root cause (https://stackoverflow.com/questions/76244244/profile-id-is-missing-in-google-oauth-profile-response-nextauth)
@@ -46,8 +46,14 @@ const configureIdentityProvider = () => {
             isAdmin:
               adminEmails?.includes(profile.email.toLowerCase()) ||
               adminEmails?.includes(profile.preferred_username.toLowerCase()),
+            accessToken: tokens.accessToken,
           };
           return newProfile;
+        },
+        authorization: {
+          params: {
+            scope: 'openid profile email offline_access https://graph.microsoft.com/.default',
+          },
         },
       })
     );
@@ -95,7 +101,10 @@ export const options: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   providers: [...configureIdentityProvider()],
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, account }) {
+      if (account && user) {
+        token.accessToken = account.access_token; // Store the access token in the JWT
+      }
       if (user?.isAdmin) {
         token.isAdmin = user.isAdmin;
       }
@@ -103,6 +112,7 @@ export const options: NextAuthOptions = {
     },
     async session({ session, token, user }) {
       session.user.isAdmin = token.isAdmin as boolean;
+      session.accessToken = token.accessToken as string;
       return session;
     },
   },
