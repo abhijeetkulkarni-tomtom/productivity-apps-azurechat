@@ -2,19 +2,28 @@ import { createHash } from "crypto";
 import { getServerSession } from "next-auth";
 import { RedirectToPage } from "../common/navigation-helpers";
 import { options } from "./auth-api";
-import { NextApiRequest, NextApiResponse } from 'next';
+//import { NextApiRequest, NextApiResponse } from 'next';
 import fetch from 'node-fetch'; // Make sure to install node-fetch if you haven't
 
-const clientId = process.env.AZURE_AD_CLIENT_ID ?? '';
-const clientSecret = process.env.AZURE_AD_CLIENT_SECRET ?? '';
-const tenantId = process.env.AZURE_AD_TENANT_ID ?? '';
+//const clientId = process.env.AZURE_AD_CLIENT_ID ?? '';
+//const clientSecret = process.env.AZURE_AD_CLIENT_SECRET ?? '';
+//const tenantId = process.env.AZURE_AD_TENANT_ID ?? '';
 //const clientId = process.env.EXTENSION_CLIENT_ID ?? '';
 //const clientSecret = process.env.EXTENSION_CLIENT_SECRET ?? '';
 //const tenantId = process.env.EXTENSION_TENANT_ID ?? '';  // Replace with your tenant ID
-const tokenEndpoint = `https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/token`;
+//const tokenEndpoint = `https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/token`;
 
-export const getAccessToken = async () => async (): Promise<string | null> => {
-/*  const params = new URLSearchParams();
+export const getAccessToken = async (): Promise<string> => {
+  const session = await getServerSession(options);
+  if (session && session.accessToken) {
+    return session.accessToken;
+  }
+  throw new Error('User not authenticated');
+};
+
+/*
+export const getAccessToken = async (): Promise<string> => {
+  const params = new URLSearchParams();
   params.append('grant_type', 'client_credentials');
   params.append('client_id', clientId);
   params.append('client_secret', clientSecret);
@@ -34,13 +43,8 @@ export const getAccessToken = async () => async (): Promise<string | null> => {
 
   const data = await response.json();
   return data.access_token;
-*/
-  const session = await getServerSession(options);
-  if (session && session.accessToken) {
-    return session.accessToken;
-  }
-  throw new Error('User not authenticated');
 };
+*/
 
 export const userSession = async (): Promise<UserModel | null> => {
   const session = await getServerSession(options);

@@ -15,6 +15,7 @@ import {
 } from "@/features/extensions-page/extension-services/models";
 import { RunnableToolFunction } from "openai/lib/RunnableFunction";
 import { ToolsInterface } from "../models";
+
 export const GetDynamicExtensions = async (props: {
   extensionIds: string[];
 }): Promise<ServerActionResponse<Array<any>>> => {

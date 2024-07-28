@@ -10,12 +10,14 @@ declare module "next-auth" {
     } & DefaultSession["user"];
   }
 
+  interface User {
+    isAdmin: boolean;
+  }
+}
+
+declare module "next-auth/jwt" {
   interface JWT {
     accessToken?: string;
     isAdmin?: boolean;
-  }
-
-  interface User {
-    isAdmin: boolean;
   }
 }
