@@ -4,9 +4,12 @@ import { RedirectToPage } from "../common/navigation-helpers";
 import { options } from "./auth-api";
 import fetch from 'node-fetch'; // Make sure to install node-fetch if you haven't
 
-const clientId = process.env.EXTENSION_CLIENT_ID ?? '';
-const clientSecret = process.env.EXTENSION_CLIENT_SECRET ?? '';
-const tenantId = process.env.EXTENSION_TENANT_ID ?? '';  // Replace with your tenant ID
+const clientId = process.env.AZURE_AD_CLIENT_ID ?? '';
+const clientSecret = process.env.AZURE_AD_CLIENT_SECRET ?? '';
+const tenantId = process.env.AZURE_AD_TENANT_ID ?? '';
+//const clientId = process.env.EXTENSION_CLIENT_ID ?? '';
+//const clientSecret = process.env.EXTENSION_CLIENT_SECRET ?? '';
+//const tenantId = process.env.EXTENSION_TENANT_ID ?? '';  // Replace with your tenant ID
 const tokenEndpoint = `https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/token`;
 
 export const getAccessToken = async () => {
